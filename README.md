@@ -14,6 +14,14 @@ brew install rabbitmq
 brew services start rabbitmq  # launch daemon
 ```
 
+Then python environment:
+
+```sh
+init_venv  # initialize a python venv (py 3.7)
+avenv  # activate the venv
+pip install -r requirements.txt
+```
+
 Read https://aio-pika.readthedocs.io/en/6.8.0/rabbitmq-tutorial/1-introduction.html
 
 ## Things I learnt:
@@ -25,10 +33,12 @@ Read https://aio-pika.readthedocs.io/en/6.8.0/rabbitmq-tutorial/1-introduction.h
 
 ## Reproducing the ChannelStateInvalidError and Debugging
 
-Structure:
+Project Structure:
 
 - `model.py`: the model service producing the messages
 - `listener.py`: the inner features service listening to the queue, consuming the messages and dumping data to db.
+
+Details:
 
 - Open two terminal windows, run `python model.py` (producer) and `python listener.py` (consumer).
 - The way I'm reproducing is by manually triggering the channel closure (hooking into the underlying `aiormq` Channel, not the `aio_pika` Channel wrapper class) -- see `model.py` file.
