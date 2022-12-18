@@ -1,6 +1,7 @@
 # rabbitmq-channelstateinvaliderror-debugging
 
-**Background**: Facing ChannelStateInvalidError errors in production. This repo is an attempt to reproduce that error in a minimal fashion (and a good chance for me to learn rabbitmq from scratch), then debugging the error, then fixing the error.
+**Background**: Facing ChannelStateInvalidError errors in production. This repo is an attempt to reproduce that error in a minimal fashion (and a good chance for me to learn rabbitmq from scratch), then debugging the error, then fixing the error.  
+Also meant as a backup reference guide for myself, how to set up a consumer-producer pair.
 
 In production, we're using `aio_pika==6.8.0` hence the pin to that version in the requirements.
 
