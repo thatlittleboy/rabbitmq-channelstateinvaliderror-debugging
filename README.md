@@ -1,4 +1,4 @@
-# channelstateinvaliderror-debugging
+# rabbitmq-channelstateinvaliderror-debugging
 
 **Background**: Facing ChannelStateInvalidError errors in production. This repo is an attempt to reproduce that error in a minimal fashion (and a good chance for me to learn rabbitmq from scratch), then debugging the error, then fixing the error.
 
