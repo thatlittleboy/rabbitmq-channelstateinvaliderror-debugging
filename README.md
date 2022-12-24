@@ -1,13 +1,52 @@
 # rabbitmq-channelstateinvaliderror-debugging
 
-**Background**: Facing ChannelStateInvalidError errors in production. This repo is an attempt to reproduce that error in a minimal fashion (and a good chance for me to learn rabbitmq from scratch), then debugging the error, then fixing the error.  
+**Background**: Facing ChannelStateInvalidError errors in production.
+
+```python
+ChannelInvalidStateError('writer is None',)
+Traceback:
+  File '/app/modeling_service/model/base.py', line 245, in process
+    await self.do_inner_features_call(input_data, res)
+
+  File '/app/modeling_service/util/logging/decorators.py', line 16, in do_f
+    ret = await f(*args, **kwargs)
+
+  File '/app/modeling_service/model/base.py', line 226, in do_inner_features_call
+    await self.inner_features_call_rabbitmq.publish(json.dumps(msg), route_key)
+
+  File '/app/modeling_service/util/rabbitmq.py', line 32, in publish
+    await channel.set_qos(10)
+
+  File '/usr/local/lib/python3.6/site-packages/aio_pika/robust_channel.py', line 110, in set_qos
+    timeout=timeout,
+
+  File '/usr/local/lib/python3.6/site-packages/aio_pika/channel.py', line 379, in set_qos
+    timeout=timeout,
+
+  File '/usr/local/lib/python3.6/asyncio/tasks.py', line 339, in wait_for
+    return (yield from fut)
+
+  File '/usr/local/lib/python3.6/site-packages/aiormq/channel.py', line 563, in basic_qos
+    timeout=timeout,
+
+  File '/usr/local/lib/python3.6/site-packages/aiormq/base.py', line 168, in wrap
+    return await self.create_task(func(self, *args, **kwargs))
+
+  File '/usr/local/lib/python3.6/site-packages/aiormq/base.py', line 25, in __inner
+    return await self.task
+
+  File '/usr/local/lib/python3.6/site-packages/aiormq/channel.py', line 121, in rpc
+    raise ChannelInvalidStateError('writer is None')
+```
+
+This repo is an attempt to reproduce that error in a minimal fashion (and a good chance for me to learn rabbitmq from scratch), then debugging the error, then fixing the error.  
 Also meant as a backup reference guide for myself, how to set up a consumer-producer pair.
 
 In production, we're using `aio_pika==6.8.0` hence the pin to that version in the requirements.
 
 ## Getting started
 
-One time setup
+One time setup on MacOS
 
 ```sh
 brew install rabbitmq
